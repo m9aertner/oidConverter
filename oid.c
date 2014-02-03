@@ -9,11 +9,14 @@
 ### To compile using cl, use:                                     ###
 ###   cl -DWIN32 -O1 oid.c                                        ###
 ###                                                               ###
+### To compile using lcc-win32, use:                              ###
+###   lcc oid.c & lcclnk oid.obj                                  ###
+###                                                               ###
 ### Freeware - do with it whatever you want.                      ###
 ### Use at your own risk. No warranty of any kind.                ###
 ###                                                               ###
 ###################################################################*/
-/* $Version: 1.1$ */
+/* $Version: 1.2$ */
 
 #include <stdio.h>
 #include <string.h>
@@ -63,7 +66,7 @@ int main( int argc, char **argv )
 	if( argc == 1 )
 	{
 		fprintf( stderr,
-		"OID encoder/decoder - Matthias Gaertner 1999/2001 - Freeware\n"
+		"OID encoder/decoder - v1.2 - Matthias Gaertner 1999/2001 - Freeware\n"
 		"Usage:\n"
 		" OID [-C] [-o<outfile>] {-i<infile>|1.2.3.4}\n"
 		"   converts dotted form to ASCII HEX DER output.\n"
@@ -232,10 +235,13 @@ int main( int argc, char **argv )
 				fprintf(stderr, "Must have hex digits only!\n" );
 				return 2;
 			}
-			if( p[1] >= 'A' && p[1] <= 'F' ||
-				p[1] >= 'a' && p[1] <= 'f' )
+			if( p[1] >= 'A' && p[1] <= 'F' )
 			{
 				b += (p[1] - 'A' + 10);
+			}
+			else  if( p[1] >= 'a' && p[1] <= 'f' )
+			{
+				b += (p[1] - 'a' + 10);
 			}
 			else if( p[1] >= '0' && p[1] <= '9' )
 			{
