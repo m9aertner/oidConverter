@@ -16,7 +16,7 @@
 ### Use at your own risk. No warranty of any kind.                ###
 ###                                                               ###
 ###################################################################*/
-/* $Version: 1.2$ */
+/* $Version: 1.3$ */
 
 #include <stdio.h>
 #include <string.h>
@@ -66,7 +66,7 @@ int main( int argc, char **argv )
 	if( argc == 1 )
 	{
 		fprintf( stderr,
-		"OID encoder/decoder - v1.2 - Matthias Gaertner 1999/2001 - Freeware\n"
+		"OID encoder/decoder - v1.3 - Matthias Gaertner 1999/2001 - Freeware\n"
 		"Usage:\n"
 		" OID [-c|-C] [-o<outfile>] {-i<infile>|1.2.3.4}\n"
 		"   converts dotted form to ASCII HEX DER output.\n"
