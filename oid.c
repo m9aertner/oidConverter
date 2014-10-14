@@ -68,7 +68,7 @@ int main( int argc, char **argv )
 		fprintf( stderr,
 		"OID encoder/decoder - v1.2 - Matthias Gaertner 1999/2001 - Freeware\n"
 		"Usage:\n"
-		" OID [-C] [-o<outfile>] {-i<infile>|1.2.3.4}\n"
+		" OID [-c|-C] [-o<outfile>] {-i<infile>|1.2.3.4}\n"
 		"   converts dotted form to ASCII HEX DER output.\n"
 		" OID -x [-o<outfile>] {-i<infile>|hex-digits}\n"
 		"   decodes ASCII HEX DER and gives dotted form.\n" );
@@ -88,10 +88,21 @@ int main( int argc, char **argv )
 					nAfterOption = 1;
 				}
 			}
-			else if( argv[n][1] == 'C' )
+			else if( argv[n][1] == 'c' )
 			{
 				nMode = 0;
 				nCHex = 1;
+
+				if( argv[n][2] != '\0' )
+				{
+					argv[n--] += 2;
+					nAfterOption = 1;
+				}
+			}
+			else if( argv[n][1] == 'C' )
+			{
+				nMode = 0;
+				nCHex = 2;
 
 				if( argv[n][2] != '\0' )
 				{
@@ -457,7 +468,8 @@ int main( int argc, char **argv )
 
 		if( nCHex )
 		{
-			fprintf(fOut,"\"\\x%02X\\x%02X", cl | 6, nBinary );
+			if (nCHex == 1) fprintf(fOut,"{ 0x%02X, 0x%02X, ", cl | 6, nBinary );
+			else fprintf(fOut,"\"\\x%02X\\x%02X", cl | 6, nBinary );
 		}
 		else
 		{
@@ -471,7 +483,8 @@ int main( int argc, char **argv )
 			{
 				if( nCHex )
 				{
-					fprintf(fOut,"\\x%02X\"\n", b );
+					if (nCHex == 1) fprintf(fOut,"0x%02X }\n", b );
+					else fprintf(fOut,"\\x%02X\"\n", b );
 				}
 				else
 				{
@@ -482,7 +495,8 @@ int main( int argc, char **argv )
 			{
 				if( nCHex )
 				{
-					fprintf(fOut,"\\x%02X", b );
+					if (nCHex == 1) fprintf(fOut,"0x%02X, ", b );
+					else fprintf(fOut,"\\x%02X", b );
 				}
 				else
 				{
